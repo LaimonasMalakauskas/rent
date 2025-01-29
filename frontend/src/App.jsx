@@ -6,6 +6,7 @@ import Navbar from './components/Nav';
 import Footer from './components/Footer';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import AdminPage from './pages/AdminPage';
 import HomePage from './pages/HomePage';
 
 const App = ({ user, onLogout, setUser }) => {
@@ -17,6 +18,9 @@ const App = ({ user, onLogout, setUser }) => {
           <Route path="/" element={<HomePage />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
+          {user && user.role === 'admin' && (
+            <Route path="/admin" element={<AdminPage />} />
+          )}
         </Routes>
       </div>
       <Footer />

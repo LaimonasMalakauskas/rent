@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const CarForm = ({ setCars }) => {
+const CarForm = () => {
   const [model, setModel] = useState('');
   const [price, setPrice] = useState('');
   const [available, setAvailable] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,12 +27,9 @@ const CarForm = ({ setCars }) => {
 
       if (response.ok) {
         const newCar = await response.json();
-        setCars((prevCars) => [newCar, ...prevCars]);
-        setModel('');
-        setPrice('');
-        setAvailable(true);
-        setError('');
-        alert('Automobilis buvo sėkmingai įrašytas!');
+        console.log('Gauta nauja mašina:', newCar);
+
+        navigate('/'); 
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Įvyko klaida, bandykite vėliau');
@@ -41,9 +40,9 @@ const CarForm = ({ setCars }) => {
   };
 
   return (
-    <div>
+    <div className="container d-flex flex-column align-items-center mt-5">
       <h2 className="mb-4">Pridėti Automobilį</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="w-50">
         <div className="mb-3">
           <label htmlFor="model" className="form-label">Modelis:</label>
           <input

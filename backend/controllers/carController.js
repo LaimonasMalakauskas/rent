@@ -14,21 +14,27 @@ const createCar = async (req, res) => {
 
   const { model, price, available } = req.body;
 
-  if (!model || price === undefined) {
-    return res.status(400).json({ message: 'Modelis ir kaina yra privalomi' });
+  if (!model || typeof model !== 'string' || model.trim() === '') {
+    return res.status(400).json({ message: 'Modelio pavadinimas yra privalomas' });
+  }
+
+  if (price === undefined || price === null || isNaN(price) || price <= 0) {
+    return res.status(400).json({ message: 'Kaina turi būti teigiamas skaičius' });
   }
 
   const newCar = new Car({
     model,
-    price,
-    available,
+    price: Number(price),
+    available: available ?? false, 
   });
 
   try {
     const savedCar = await newCar.save();
+    console.log('Automobilis sėkmingai išsaugotas:', savedCar);
     res.status(201).json(savedCar);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    console.error('Klaida išsaugant automobilį:', err);
+    res.status(500).json({ message: 'Serverio klaida, bandykite vėliau' });
   }
 };
 

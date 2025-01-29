@@ -16,6 +16,9 @@ const Navbar = ({ user, onLogout }) => {
                 <span className="navbar-text me-3 text-white">
                   {user.email}
                 </span>
+                {user.role === 'admin' && (
+                  <Link to="/admin" className="btn btn-outline-warning me-2 mt-2">Pridėti Automobilį</Link>
+                )}
                 <button className="btn btn-outline-danger me-2 mt-2" onClick={onLogout}>Logout</button>
               </>
             ) : (

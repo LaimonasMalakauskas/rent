@@ -10,17 +10,21 @@ const carSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: [true, 'Please add price'],
-      min: [0, 'Price must be a positive number'], 
+      min: [0, 'Price must be a positive number'],
     },
     available: {
       type: Boolean,
       default: true,
+    },
+    image: {
+      type: String,
     },
   },
   {
     timestamps: true,
   }
 );
+
 
 const Car = mongoose.model('Car', carSchema);
 

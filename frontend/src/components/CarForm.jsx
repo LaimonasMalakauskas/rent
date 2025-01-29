@@ -5,6 +5,7 @@ const CarForm = () => {
   const [model, setModel] = useState('');
   const [price, setPrice] = useState('');
   const [available, setAvailable] = useState(true);
+  const [image, setImage] = useState(null);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -16,20 +17,24 @@ const CarForm = () => {
       return;
     }
 
+    const formData = new FormData();
+    formData.append('model', model);
+    formData.append('price', price);
+    formData.append('available', available);
+    if (image) {
+      formData.append('image', image);
+    }
+
     try {
       const response = await fetch('http://localhost:5000/api/cars', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ model, price, available }),
+        body: formData,
       });
 
       if (response.ok) {
         const newCar = await response.json();
         console.log('Gauta nauja mašina:', newCar);
-
-        navigate('/'); 
+        navigate('/');
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Įvyko klaida, bandykite vėliau');
@@ -42,7 +47,7 @@ const CarForm = () => {
   return (
     <div className="container d-flex flex-column align-items-center mt-5">
       <h2 className="mb-4">Pridėti Automobilį</h2>
-      <form onSubmit={handleSubmit} className="w-50">
+      <form onSubmit={handleSubmit} className="w-50" encType="multipart/form-data">
         <div className="mb-3">
           <label htmlFor="model" className="form-label">Modelis:</label>
           <input
@@ -77,11 +82,19 @@ const CarForm = () => {
             Ar pasiekiamas nuomai?
           </label>
         </div>
-
-        <button type="submit" className="btn btn-primary">Pridėti Automobilį</button>
+        <div className="mb-3">
+          <label htmlFor="image" className="form-label">Nuotrauka:</label>
+          <input
+            type="file"
+            id="image"
+            className="form-control"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
+        </div>
+        {error && <p className="text-danger">{error}</p>}
+        <button type="submit" className="btn btn-primary">Pridėti</button>
       </form>
-
-      {error && <p className="text-danger mt-3">{error}</p>}
     </div>
   );
 };

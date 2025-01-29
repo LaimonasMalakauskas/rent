@@ -1,3 +1,4 @@
+const path = require('path');
 const Car = require('../models/carModel');
 
 const getAllCars = async (req, res) => {
@@ -11,32 +12,31 @@ const getAllCars = async (req, res) => {
 
 const createCar = async (req, res) => {
   console.log('Gaunami duomenys iš kliento:', req.body);
+  console.log('Gautas failas:', req.file);
 
   const { model, price, available } = req.body;
+  const imagePath = req.file ? `/uploads/${path.basename(req.file.path)}` : null;
 
-  if (!model || typeof model !== 'string' || model.trim() === '') {
-    return res.status(400).json({ message: 'Modelio pavadinimas yra privalomas' });
-  }
-
-  if (price === undefined || price === null || isNaN(price) || price <= 0) {
-    return res.status(400).json({ message: 'Kaina turi būti teigiamas skaičius' });
+  if (!model || price === undefined) {
+    return res.status(400).json({ message: 'Modelis ir kaina yra privalomi' });
   }
 
   const newCar = new Car({
     model,
-    price: Number(price),
-    available: available ?? false, 
+    price,
+    available,
+    image: imagePath,
   });
 
   try {
     const savedCar = await newCar.save();
-    console.log('Automobilis sėkmingai išsaugotas:', savedCar);
+    console.log('Įrašytas automobilis:', savedCar);
     res.status(201).json(savedCar);
   } catch (err) {
-    console.error('Klaida išsaugant automobilį:', err);
-    res.status(500).json({ message: 'Serverio klaida, bandykite vėliau' });
+    res.status(400).json({ message: err.message });
   }
 };
+
 
 
 module.exports = {

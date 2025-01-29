@@ -27,29 +27,33 @@ const CarList = () => {
           {filteredCars.length === 0 ? (
             <p className="text-muted">Nėra įrašytų automobilių.</p>
           ) : (
-            <ul className="list-group">
+            <div className="row">
               {filteredCars.map((car) => (
-                <li
-                  key={car._id}
-                  className="list-group-item d-flex justify-content-between align-items-start"
-                >
-                  <div>
-                    <h5 className="mb-1">{car.model}</h5>
-                    <p className="mb-1">Kaina: €{car.price.toFixed(2)}</p>
-                    <small className="text-muted">
-                      Pridėta: {new Date(car.createdAt).toLocaleString('lt-LT')}
-                    </small>
+                <div key={car._id} className="col-md-4 mb-4">
+                  <div className="card">
+                    <img
+                      src={car.image ? `http://localhost:5000${car.image}` : 'https://via.placeholder.com/150'}
+                      className="card-img-top"
+                      alt={car.model}
+                    />
+                    <div className="card-body">
+                      <h5 className="card-title">{car.model}</h5>
+                      <p className="card-text">Kaina: €{car.price.toFixed(2)}</p>
+                      <p className="card-text">
+                        Pridėta: {new Date(car.createdAt).toLocaleString('lt-LT')}
+                      </p>
+                      <p>
+                        {car.available ? (
+                          <span className="badge bg-success">Pasiekiamas</span>
+                        ) : (
+                          <span className="badge bg-danger">Nepasiekiamas</span>
+                        )}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    {car.available ? (
-                      <span className="badge bg-success">Pasiekiamas</span>
-                    ) : (
-                      <span className="badge bg-danger">Nepasiekiamas</span>
-                    )}
-                  </div>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </div>
       </div>

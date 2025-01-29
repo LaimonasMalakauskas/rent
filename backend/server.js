@@ -1,3 +1,5 @@
+const path = require('path');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -13,6 +15,7 @@ app.use(express.json());
 app.use('/', require('./routes/mainRoutes'))
 app.use('/api/cars', require('./routes/carRoutes'))
 app.use('/api/auth', require('./routes/authRoutes'))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 mongoose.connect(process.env.MONGO_URI) 
   .then(() => console.log('MongoDB connected'))

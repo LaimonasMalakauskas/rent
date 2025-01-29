@@ -4,6 +4,8 @@ import CarFilter from './CarFilter';
 const CarList = () => {
   const [cars, setCars] = useState([]);
   const [filter, setFilter] = useState('all');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:5000/api/cars')
@@ -13,8 +15,12 @@ const CarList = () => {
   }, []);
 
   const filteredCars = cars.filter((car) => {
-    if (filter === 'available') return car.available;
-    if (filter === 'unavailable') return !car.available;
+    if (filter === 'available' && !car.available) return false;
+    if (filter === 'unavailable' && car.available) return false;
+
+    if (minPrice && car.price < minPrice) return false;
+    if (maxPrice && car.price > maxPrice) return false;
+
     return true;
   });
 
@@ -23,7 +29,14 @@ const CarList = () => {
       <div className="row">
         <div className="col-md-12 mb-4">
           <h2 className="mb-4">Turimi Automobiliai</h2>
-          <CarFilter filter={filter} setFilter={setFilter} />
+          <CarFilter 
+            filter={filter} 
+            setFilter={setFilter} 
+            minPrice={minPrice} 
+            maxPrice={maxPrice}
+            setMinPrice={setMinPrice}
+            setMaxPrice={setMaxPrice}
+          />
           {filteredCars.length === 0 ? (
             <p className="text-muted">Nėra įrašytų automobilių.</p>
           ) : (

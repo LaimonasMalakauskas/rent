@@ -12,8 +12,8 @@ const CarFilter = ({
   setSelectedModel, 
 }) => {
   return (
-    <div className="row mb-3 d-flex align-items-center">
-      <div className="col-2 md-3 mb-3">
+    <div className="row row-cols-1 row-cols-md-4 mb-4 g-3 align-items-center">
+      <div className="col">
         <label htmlFor="filter" className="form-label">Filtruoti pagal:</label>
         <select
           id="filter"
@@ -26,7 +26,7 @@ const CarFilter = ({
           <option value="unavailable">Nepasiekiami</option>
         </select>
       </div>
-      <div className="col-2 md-3 mb-3">
+      <div className="col">
         <label htmlFor="minPrice" className="form-label">Minimali kaina:</label>
         <input
           type="number"
@@ -37,7 +37,7 @@ const CarFilter = ({
           placeholder="Min. kaina"
         />
       </div>
-      <div className="col-2 md-3 mb-3">
+      <div className="col">
         <label htmlFor="maxPrice" className="form-label">Maksimali kaina:</label>
         <input
           type="number"
@@ -48,7 +48,7 @@ const CarFilter = ({
           placeholder="Max. kaina"
         />
       </div>
-      <div className="col-2 md-3 mb-3">
+      <div className="col">
         <label htmlFor="modelFilter" className="form-label">Filtruoti pagal modelį:</label>
         <select
           id="modelFilter"

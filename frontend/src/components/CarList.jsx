@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CarFilter from './CarFilter'; 
+import CarFilter from './CarFilter';
 
 const CarList = () => {
   const [cars, setCars] = useState([]);
@@ -40,10 +40,10 @@ const CarList = () => {
       <div className="row">
         <div className="col-md-12 mb-4">
           <h2 className="mb-4">Turimi Automobiliai</h2>
-          <CarFilter 
-            filter={filter} 
-            setFilter={setFilter} 
-            minPrice={minPrice} 
+          <CarFilter
+            filter={filter}
+            setFilter={setFilter}
+            minPrice={minPrice}
             maxPrice={maxPrice}
             setMinPrice={setMinPrice}
             setMaxPrice={setMaxPrice}
@@ -58,11 +58,14 @@ const CarList = () => {
               {filteredCars.map((car) => (
                 <div key={car._id} className="col-md-4 mb-4">
                   <div className="card">
-                    <img
-                      src={car.image ? `http://localhost:5000${car.image}` : 'https://via.placeholder.com/150'}
-                      className="card-img-top"
-                      alt={car.model}
-                    />
+                    <div className="car-image">
+                      {car.image && (
+                        <img
+                          src={`http://localhost:5000${car.image}`}
+                          alt={car.model}
+                        />
+                      )}
+                    </div>
                     <div className="card-body">
                       <h5 className="card-title">{car.model}</h5>
                       <p className="card-text">Kaina: €{car.price.toFixed(2)}</p>

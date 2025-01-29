@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom';
 const Navbar = ({ user, onLogout }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-body" data-bs-theme="dark">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">RENT</Link>
+      <div className="container-fluid d-flex justify-content-between align-items-center">
+        <Link className="navbar-brand" to="/">
+          <img src="/logo.png" alt="RENT Logo" height="50" />
+        </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <div className="ms-auto">
+          <div className="ms-auto d-flex align-items-center">
             {user ? (
               <>
                 <span className="navbar-text me-3 text-white">

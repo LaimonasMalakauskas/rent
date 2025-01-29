@@ -1,6 +1,16 @@
 import React from 'react';
 
-const CarFilter = ({ filter, setFilter, minPrice, maxPrice, setMinPrice, setMaxPrice }) => {
+const CarFilter = ({
+  filter,
+  setFilter,
+  minPrice,
+  maxPrice,
+  setMinPrice,
+  setMaxPrice,
+  models,
+  selectedModel,
+  setSelectedModel, 
+}) => {
   return (
     <div className="row mb-3 d-flex align-items-center">
       <div className="col-2 md-3 mb-3">
@@ -37,6 +47,22 @@ const CarFilter = ({ filter, setFilter, minPrice, maxPrice, setMinPrice, setMaxP
           onChange={(e) => setMaxPrice(e.target.value)}
           placeholder="Max. kaina"
         />
+      </div>
+      <div className="col-2 md-3 mb-3">
+        <label htmlFor="modelFilter" className="form-label">Filtruoti pagal modelį:</label>
+        <select
+          id="modelFilter"
+          className="form-select"
+          value={selectedModel}
+          onChange={(e) => setSelectedModel(e.target.value)}
+        >
+          <option value="all">Visi modeliai</option>
+          {models.map((model) => (
+            <option key={model} value={model}>
+              {model}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );

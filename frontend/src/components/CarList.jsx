@@ -6,6 +6,8 @@ const CarList = () => {
   const [filter, setFilter] = useState('all');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  const [selectedModel, setSelectedModel] = useState('all');
+  const [models, setModels] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:5000/api/cars')
@@ -14,12 +16,21 @@ const CarList = () => {
       .catch((error) => console.error('Error fetching cars:', error));
   }, []);
 
+  useEffect(() => {
+    fetch('http://localhost:5000/api/cars/models')
+      .then((response) => response.json())
+      .then((data) => setModels(data))
+      .catch((error) => console.error('Error fetching models:', error));
+  }, []);
+
   const filteredCars = cars.filter((car) => {
     if (filter === 'available' && !car.available) return false;
     if (filter === 'unavailable' && car.available) return false;
 
     if (minPrice && car.price < minPrice) return false;
     if (maxPrice && car.price > maxPrice) return false;
+
+    if (selectedModel !== 'all' && car.model !== selectedModel) return false;
 
     return true;
   });
@@ -36,6 +47,9 @@ const CarList = () => {
             maxPrice={maxPrice}
             setMinPrice={setMinPrice}
             setMaxPrice={setMaxPrice}
+            models={models}
+            selectedModel={selectedModel}
+            setSelectedModel={setSelectedModel}
           />
           {filteredCars.length === 0 ? (
             <p className="text-muted">Nėra įrašytų automobilių.</p>

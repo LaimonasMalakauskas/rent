@@ -10,6 +10,15 @@ const getAllCars = async (req, res) => {
   }
 };
 
+const getCarModels = async (req, res) => {
+  try {
+    const models = await Car.distinct('model');
+    res.json(models);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const createCar = async (req, res) => {
   console.log('Gaunami duomenys iš kliento:', req.body);
   console.log('Gautas failas:', req.file);
@@ -42,4 +51,5 @@ const createCar = async (req, res) => {
 module.exports = {
   getAllCars,
   createCar,
+  getCarModels,
 };

@@ -55,7 +55,7 @@ const CarForm = () => {
   return (
     <div className="container d-flex flex-column align-items-center mt-5">
       <h2 className="mb-4">Pridėti Automobilį</h2>
-      <form onSubmit={handleSubmit} className="w-50" encType="multipart/form-data">
+      <form onSubmit={handleSubmit} className="w-50 border border-light rounded-3 p-3 bg-dark bg-gradient text-light mb-5" encType="multipart/form-data">
         <div className="mb-3">
           <label htmlFor="image" className="form-label">Nuotrauka:</label>
           <input
@@ -164,7 +164,9 @@ const CarForm = () => {
         </div>
 
         {error && <p className="text-danger">{error}</p>}
-        <button type="submit" className="btn btn-primary">Pridėti</button>
+        <div className="d-flex justify-content-end">
+          <button type="submit" className="btn btn-outline-primary">Pridėti</button>
+        </div>
       </form>
     </div>
   );

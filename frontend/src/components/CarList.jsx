@@ -189,9 +189,9 @@ const CarList = ({ user }) => {
           {editingCar && (
             <div className="modal show">
               <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title">Redaguoti automobilį</h5>
+                <div className="modal-content border">
+                  <div className="modal-header bg-dark" data-bs-theme="dark">
+                    <h5 className="modal-title text-light">Redaguoti automobilį</h5>
                     <button
                       type="button"
                       className="btn-close"
@@ -308,11 +308,11 @@ const CarList = ({ user }) => {
                         </label>
                       </div>
                     </div>
-                    <div className="modal-footer">
-                      <button type="button" className="btn btn-secondary" onClick={() => setEditingCar(null)}>
+                    <div className="modal-footer bg-dark">
+                      <button type="button" className="btn btn-outline-danger" onClick={() => setEditingCar(null)}>
                         Atšaukti
                       </button>
-                      <button type="submit" className="btn btn-primary">
+                      <button type="submit" className="btn btn-outline-primary">
                         Išsaugoti
                       </button>
                     </div>

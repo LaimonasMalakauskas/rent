@@ -13,21 +13,21 @@ const Navbar = ({ user, onLogout }) => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <div className="ms-auto d-flex align-items-center">
+        <div className="ms-auto d-flex align-items-center flex-column flex-sm-row my-2">
             {user ? (
               <>
-              <div className='me-5'>
-              {user.role === 'admin' && (
-                  <Link to="/create" className="btn btn-outline-warning me-2 mt-2">
-                  <FaPlusCircle className="me-2 icon" /> Pridėti Automobilį
-                </Link>
-                )}
-              </div>
-                <span className="navbar-text me-3 text-white">
+                <div className="mx-5 pb-2">
+                  {user.role === 'admin' && (
+                    <Link to="/create" className="btn btn-outline-warning me-2 mt-2">
+                      <FaPlusCircle className="me-2 icon" /> Pridėti Automobilį
+                    </Link>
+                  )}
+                </div>
+                <span className="navbar-text mx-3 text-white my-2">
                   {user.email}
                 </span>
-                
-                <button className="btn btn-outline-danger me-2 mt-2" onClick={onLogout}>Logout</button>
+
+                <button className="btn btn-outline-danger mx-2" onClick={onLogout}>Logout</button>
               </>
             ) : (
               <>

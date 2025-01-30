@@ -23,7 +23,7 @@ const createCar = async (req, res) => {
   console.log('Gaunami duomenys iš kliento:', req.body);
   console.log('Gautas failas:', req.file);
 
-  const { model, price, available } = req.body;
+  const { model, price, available, capacity, passengers, doors, gears } = req.body;
   const imagePath = req.file ? `/uploads/${path.basename(req.file.path)}` : null;
 
   if (!model || price === undefined) {
@@ -35,6 +35,10 @@ const createCar = async (req, res) => {
     price,
     available,
     image: imagePath,
+    capacity, 
+    passengers, 
+    doors, 
+    gears,
   });
 
   try {

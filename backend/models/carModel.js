@@ -18,6 +18,23 @@ const carSchema = new mongoose.Schema(
     },
     image: {
       type: String,
+      required: [true, 'Please add image'],
+    },
+    capacity: {
+      type: Number,
+      required: [true, 'Please add capacity'],
+    },
+    passengers: {
+      type: Number,
+      required: [true, 'Please add passengers number'],
+    },
+    doors: {
+      type: Number,
+      required: [true, 'Please add doors number'],
+    },
+    gears: {
+      type: String,
+      required: [true, 'Please add gears type'],
     },
   },
   {

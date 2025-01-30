@@ -6,6 +6,10 @@ const CarForm = () => {
   const [price, setPrice] = useState('');
   const [available, setAvailable] = useState(true);
   const [image, setImage] = useState(null);
+  const [capacity, setCapacity] = useState('');
+  const [passengers, setPassengers] = useState('');
+  const [doors, setDoors] = useState('');
+  const [gears, setGears] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -21,6 +25,10 @@ const CarForm = () => {
     formData.append('model', model);
     formData.append('price', price);
     formData.append('available', available);
+    formData.append('capacity', capacity);
+    formData.append('passengers', passengers);
+    formData.append('doors', doors);
+    formData.append('gears', gears);
     if (image) {
       formData.append('image', image);
     }
@@ -49,6 +57,16 @@ const CarForm = () => {
       <h2 className="mb-4">Pridėti Automobilį</h2>
       <form onSubmit={handleSubmit} className="w-50" encType="multipart/form-data">
         <div className="mb-3">
+          <label htmlFor="image" className="form-label">Nuotrauka:</label>
+          <input
+            type="file"
+            id="image"
+            className="form-control"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
+        </div>
+        <div className="mb-3">
           <label htmlFor="model" className="form-label">Modelis:</label>
           <input
             type="text"
@@ -58,6 +76,68 @@ const CarForm = () => {
             onChange={(e) => setModel(e.target.value)}
             required
           />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="capacity" className="form-label">Krepšių skaičius:</label>
+          <select
+            id="capacity"
+            className="form-control"
+            value={capacity}
+            onChange={(e) => setCapacity(e.target.value)}
+            required
+          >
+            <option value="">Pasirinkite...</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="passengers" className="form-label">Keleivių skaičius:</label>
+          <select
+            id="passengers"
+            className="form-control"
+            value={passengers}
+            onChange={(e) => setPassengers(e.target.value)}
+            required
+          >
+            <option value="">Pasirinkite...</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+          </select>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="doors" className="form-label">Durelių skaičius:</label>
+          <select
+            id="doors"
+            className="form-control"
+            value={doors}
+            onChange={(e) => setDoors(e.target.value)}
+            required
+          >
+            <option value="">Pasirinkite...</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="gears" className="form-label">Pavarų tipas:</label>
+          <select
+            id="gears"
+            className="form-control"
+            value={gears}
+            onChange={(e) => setGears(e.target.value)}
+            required
+          >
+            <option value="">Pasirinkite...</option>
+            <option value="Automatinė">Automatinė</option>
+            <option value="Mechaninė">Mechaninė</option>
+          </select>
         </div>
         <div className="mb-3">
           <label htmlFor="price" className="form-label">Kaina:</label>
@@ -82,16 +162,7 @@ const CarForm = () => {
             Ar pasiekiamas nuomai?
           </label>
         </div>
-        <div className="mb-3">
-          <label htmlFor="image" className="form-label">Nuotrauka:</label>
-          <input
-            type="file"
-            id="image"
-            className="form-control"
-            accept="image/*"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-        </div>
+
         {error && <p className="text-danger">{error}</p>}
         <button type="submit" className="btn btn-primary">Pridėti</button>
       </form>

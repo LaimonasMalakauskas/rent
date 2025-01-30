@@ -9,6 +9,7 @@ const CarList = ({ user }) => {
   const [maxPrice, setMaxPrice] = useState('');
   const [selectedModel, setSelectedModel] = useState('all');
   const [models, setModels] = useState([]);
+  const [editingCar, setEditingCar] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:5000/api/cars')
@@ -42,6 +43,53 @@ const CarList = ({ user }) => {
       });
   };
 
+  const handleEdit = (carId) => {
+    const carToEdit = cars.find((car) => car._id === carId);
+    setEditingCar(carToEdit);
+  };
+
+  const handleSaveEdit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('model', editingCar.model);
+    formData.append('price', editingCar.price);
+    formData.append('capacity', editingCar.capacity);
+    formData.append('passengers', editingCar.passengers);
+    formData.append('doors', editingCar.doors);
+    formData.append('gears', editingCar.gears);
+    formData.append('available', editingCar.available);
+
+    if (editingCar.image instanceof File) {
+      formData.append('image', editingCar.image);
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/cars/${editingCar._id}`, {
+        method: 'PUT',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const updatedCar = await response.json();
+        setCars(cars.map(car => car._id === updatedCar._id ? updatedCar : car));
+        setEditingCar(null);
+      } else {
+        console.error('Klaida atnaujinant automobilį');
+      }
+    } catch (error) {
+      console.error('Klaida atnaujinant automobilį:', error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditingCar((prevCar) => ({
+      ...prevCar,
+      [name]: value,
+    }));
+  };
+
   const filteredCars = cars.filter((car) => {
     if ((!user || user.role === 'user') && !car.available) return false;
 
@@ -58,12 +106,6 @@ const CarList = ({ user }) => {
     return true;
   });
 
-
-  const handleEdit = (carId) => {
-    console.log('Redaguoti automobilį:', carId);
-
-  };
-  
   return (
     <div className="container my-5">
       <div className="row">
@@ -110,7 +152,6 @@ const CarList = ({ user }) => {
                           className="img-fluid"
                         />
                       )}
-                 
                       {user?.role === 'admin' && (
                         <div className="position-absolute top-0 end-0 p-2">
                           <FaEdit
@@ -143,6 +184,141 @@ const CarList = ({ user }) => {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+          {editingCar && (
+            <div className="modal show">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title">Redaguoti automobilį</h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      onClick={() => setEditingCar(null)}
+                    ></button>
+                  </div>
+                  <form onSubmit={handleSaveEdit} encType="multipart/form-data">
+                    <div className="modal-body">
+                      <div className="mb-3">
+                        <label htmlFor="image" className="form-label">Nuotrauka</label>
+                        <input
+                          type="file"
+                          className="form-control"
+                          id="image"
+                          accept="image/*"
+                          onChange={(e) => setEditingCar({ ...editingCar, image: e.target.files[0] })}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="model" className="form-label">Modelis</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="model"
+                          name="model"
+                          value={editingCar.model}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="capacity" className="form-label">Krepšių skaičius</label>
+                        <select
+                          className="form-control"
+                          id="capacity"
+                          name="capacity"
+                          value={editingCar.capacity}
+                          onChange={handleChange}
+                        >
+                          <option value="">Pasirinkite...</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="passengers" className="form-label">Keleivių skaičius</label>
+                        <select
+                          className="form-control"
+                          id="passengers"
+                          name="passengers"
+                          value={editingCar.passengers}
+                          onChange={handleChange}
+                        >
+                          <option value="">Pasirinkite...</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                        </select>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="doors" className="form-label">Durelių skaičius</label>
+                        <select
+                          className="form-control"
+                          id="doors"
+                          name="doors"
+                          value={editingCar.doors}
+                          onChange={handleChange}
+                        >
+                          <option value="">Pasirinkite...</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="gears" className="form-label">Pavarų tipas</label>
+                        <select
+                          className="form-control"
+                          id="gears"
+                          name="gears"
+                          value={editingCar.gears}
+                          onChange={handleChange}
+                        >
+                          <option value="">Pasirinkite...</option>
+                          <option value="Automatinė">Automatinė</option>
+                          <option value="Mechaninė">Mechaninė</option>
+                        </select>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="price" className="form-label">Kaina</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="price"
+                          name="price"
+                          value={editingCar.price}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="mb-3 form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="available"
+                          name="available"
+                          checked={editingCar.available}
+                          onChange={(e) => setEditingCar({ ...editingCar, available: e.target.checked })}
+                        />
+                        <label htmlFor="available" className="form-check-label">
+                          Ar pasiekiamas nuomai?
+                        </label>
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-secondary" onClick={() => setEditingCar(null)}>
+                        Atšaukti
+                      </button>
+                      <button type="submit" className="btn btn-primary">
+                        Išsaugoti
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           )}
         </div>

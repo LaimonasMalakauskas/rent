@@ -47,3 +47,7 @@ footer {
 .icon {
   cursor: pointer;
 }
+
+.modal{
+  display: block;
+}

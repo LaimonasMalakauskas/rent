@@ -80,9 +80,36 @@ const deleteCar = (req, res) => {
     });
 };
 
+const updateCar = async (req, res) => {
+  const { id } = req.params;
+  
+  try {
+    let car = await Car.findById(id);
+    if (!car) return res.status(404).json({ message: 'Automobilis nerastas' });
+
+    if (req.file) {
+      if (car.image) {
+        const oldImagePath = path.join(__dirname, '..', 'uploads', path.basename(car.image));
+        fs.unlink(oldImagePath, (err) => {
+          if (err) console.error('Nepavyko ištrinti seno paveikslėlio:', err);
+        });
+      }
+      car.image = `/uploads/${req.file.filename}`;
+    }
+
+    Object.assign(car, req.body);
+    const updatedCar = await car.save();
+    
+    res.json(updatedCar);
+  } catch (err) {
+    res.status(500).json({ message: 'Klaida atnaujinant automobilį', error: err });
+  }
+};
+
 module.exports = {
   getAllCars,
   createCar,
   getCarModels,
   deleteCar,
+  updateCar,
 };

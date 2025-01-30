@@ -1,10 +1,10 @@
 import React from 'react';
 import CarList from '../components/CarList';
 
-const HomePage = () => {
+const HomePage = ({user}) => {
   return (
     <>
-     <CarList />
+     <CarList user={user} />
     </>
   );
 };

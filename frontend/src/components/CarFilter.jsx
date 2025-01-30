@@ -9,23 +9,26 @@ const CarFilter = ({
   setMaxPrice,
   models,
   selectedModel,
-  setSelectedModel, 
+  setSelectedModel,
+  hideAvailability,
 }) => {
   return (
     <div className="row row-cols-1 row-cols-md-4 mb-4 g-3 align-items-center">
-      <div className="col">
-        <label htmlFor="filter" className="form-label">Filtruoti pagal:</label>
-        <select
-          id="filter"
-          className="form-select"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        >
-          <option value="all">Visi</option>
-          <option value="available">Pasiekiami</option>
-          <option value="unavailable">Nepasiekiami</option>
-        </select>
-      </div>
+      {!hideAvailability && (
+        <div className="col">
+          <label htmlFor="filter" className="form-label">Filtruoti pagal:</label>
+          <select
+            id="filter"
+            className="form-select"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          >
+            <option value="all">Visi</option>
+            <option value="available">Pasiekiami</option>
+            <option value="unavailable">Nepasiekiami</option>
+          </select>
+        </div>
+      )}
       <div className="col">
         <label htmlFor="minPrice" className="form-label">Minimali kaina:</label>
         <input

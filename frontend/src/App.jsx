@@ -15,7 +15,7 @@ const App = ({ user, onLogout, setUser }) => {
       <Navbar user={user} onLogout={onLogout} />
       <div className="main-content">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage user={user} />} />
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           {user && user.role === 'admin' && (

@@ -19,7 +19,7 @@ const App = ({ user, onLogout, setUser }) => {
           <Route path="/signup" element={<Signup setUser={setUser} />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           {user && user.role === 'admin' && (
-            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/create" element={<AdminPage />} />
           )}
         </Routes>
       </div>

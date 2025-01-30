@@ -43,3 +43,7 @@ footer {
   border-radius: 8px;
   height: 50px; 
 }
+
+.icon {
+  cursor: pointer;
+}

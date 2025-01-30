@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaPlusCircle } from 'react-icons/fa';
 
 const Navbar = ({ user, onLogout }) => {
   return (
@@ -15,12 +16,17 @@ const Navbar = ({ user, onLogout }) => {
           <div className="ms-auto d-flex align-items-center">
             {user ? (
               <>
+              <div className='me-5'>
+              {user.role === 'admin' && (
+                  <Link to="/create" className="btn btn-outline-warning me-2 mt-2">
+                  <FaPlusCircle className="me-2 icon" /> Pridėti Automobilį
+                </Link>
+                )}
+              </div>
                 <span className="navbar-text me-3 text-white">
                   {user.email}
                 </span>
-                {user.role === 'admin' && (
-                  <Link to="/admin" className="btn btn-outline-warning me-2 mt-2">Pridėti Automobilį</Link>
-                )}
+                
                 <button className="btn btn-outline-danger me-2 mt-2" onClick={onLogout}>Logout</button>
               </>
             ) : (

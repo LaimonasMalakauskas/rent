@@ -11,6 +11,18 @@ const getAllCars = async (req, res) => {
   }
 };
 
+const getCarById = async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id);
+    if (!car) {
+      return res.status(404).json({ message: 'Automobilis nerastas' });
+    }
+    res.json(car);
+  } catch (err) {
+    res.status(500).json({ message: 'Serverio klaida' });
+  }
+};
+
 const getCarModels = async (req, res) => {
   try {
     const models = await Car.distinct('model');
@@ -36,9 +48,9 @@ const createCar = async (req, res) => {
     price,
     available,
     image: imagePath,
-    capacity, 
-    passengers, 
-    doors, 
+    capacity,
+    passengers,
+    doors,
     gears,
   });
 
@@ -62,7 +74,7 @@ const deleteCar = (req, res) => {
 
       if (deletedCar.image) {
         const imagePath = path.join(__dirname, '../uploads', path.basename(deletedCar.image));
-        
+
         fs.unlink(imagePath, (err) => {
           if (err) {
             console.error('Nepavyko ištrinti nuotraukos:', err);
@@ -82,7 +94,7 @@ const deleteCar = (req, res) => {
 
 const updateCar = async (req, res) => {
   const { id } = req.params;
-  
+
   try {
     let car = await Car.findById(id);
     if (!car) return res.status(404).json({ message: 'Automobilis nerastas' });
@@ -99,7 +111,7 @@ const updateCar = async (req, res) => {
 
     Object.assign(car, req.body);
     const updatedCar = await car.save();
-    
+
     res.json(updatedCar);
   } catch (err) {
     res.status(500).json({ message: 'Klaida atnaujinant automobilį', error: err });
@@ -112,4 +124,5 @@ module.exports = {
   getCarModels,
   deleteCar,
   updateCar,
+  getCarById,
 };

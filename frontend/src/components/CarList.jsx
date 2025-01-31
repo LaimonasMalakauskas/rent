@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { FaEdit, FaTrashAlt, FaInfoCircle, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import CarFilter from './CarFilter';
 
 const CarList = ({ user }) => {
@@ -10,6 +11,11 @@ const CarList = ({ user }) => {
   const [selectedModel, setSelectedModel] = useState('all');
   const [models, setModels] = useState([]);
   const [editingCar, setEditingCar] = useState(null);
+  const navigate = useNavigate();
+
+  const handleInfoClick = (carId) => {
+    navigate(`/info/${carId}`);
+  };
 
   useEffect(() => {
     fetch('http://localhost:5000/api/cars')
@@ -152,8 +158,17 @@ const CarList = ({ user }) => {
                           className="img-fluid"
                         />
                       )}
+                      <div className="position-absolute top-0 start-0 p-2">
+                        <FaInfoCircle
+                          className="text-info icon"
+                          size={24}
+                          title="Daugiau informacijos"
+                          onClick={() => handleInfoClick(car._id)}
+                          style={{ cursor: 'pointer' }}
+                        />
+                      </div>
                       {user?.role === 'admin' && (
-                        <div className="position-absolute top-0 end-0 p-2">
+                        <div className="position-absolute top-0 end-0 p-2 d-flex">
                           <FaEdit
                             onClick={() => handleEdit(car._id)}
                             className="text-primary me-2 icon"
@@ -169,15 +184,19 @@ const CarList = ({ user }) => {
                     </div>
                     <div className="card-body">
                       <h5 className="card-title">{car.model}</h5>
-                      <p className="card-text">Kaina: €{car.price.toFixed(2)}</p>
+                      <p className="card-text">Kaina: €{car.price.toFixed(2)}/diena</p>
                       <p className="card-text">
                         Pridėta: {new Date(car.createdAt).toLocaleString('lt-LT')}
                       </p>
                       <p>
                         {car.available ? (
-                          <span className="badge bg-success">Pasiekiamas</span>
+                          <span className="badge bg-success">
+                            <FaCheckCircle style={{ marginRight: '5px' }} /> Pasiekiamas
+                          </span>
                         ) : (
-                          <span className="badge bg-danger">Nepasiekiamas</span>
+                          <span className="badge bg-danger">
+                            <FaTimesCircle style={{ marginRight: '5px' }} /> Nepasiekiamas
+                          </span>
                         )}
                       </p>
                     </div>

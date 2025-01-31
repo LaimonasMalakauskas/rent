@@ -8,6 +8,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import AdminPage from './pages/AdminPage';
 import HomePage from './pages/HomePage';
+import DetailedInfoPage from './pages/DetailedInfoPage';
 
 const App = ({ user, onLogout, setUser }) => {
   return (
@@ -21,6 +22,7 @@ const App = ({ user, onLogout, setUser }) => {
           {user && user.role === 'admin' && (
             <Route path="/create" element={<AdminPage />} />
           )}
+          <Route path='/info/:id' element={<DetailedInfoPage user={user} />} />
         </Routes>
       </div>
       <Footer />

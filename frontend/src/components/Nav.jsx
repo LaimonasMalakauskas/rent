@@ -18,7 +18,7 @@ const Navbar = ({ user, onLogout }) => {
               <>
                 <div className="mx-5 pb-2">
                   {user.role === 'admin' && (
-                    <Link to="/create" className="btn btn-outline-warning me-2 mt-2">
+                    <Link to="/create" className="btn btn-outline-primary me-2 mt-2">
                       <FaPlusCircle className="me-2 icon" /> Pridėti Automobilį
                     </Link>
                   )}

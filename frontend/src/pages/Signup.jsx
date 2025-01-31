@@ -42,38 +42,40 @@ const Register = ({ setUser }) => {
   };
 
   return (
-    <div className="container">
-      <h2 className="mt-4">Registracija</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">El. paštas</label>
-          <input
-            type="email"
-            id="email"
-            className="form-control"
-            placeholder="El. paštas"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Slaptažodis</label>
-          <input
-            type="password"
-            id="password"
-            className="form-control"
-            placeholder="Slaptažodis"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">Registruotis</button>
-      </form>
-      {error && <p className="text-danger mt-3">{error}</p>}
+    <div className="container my-5">
+      <h2 className="mt-4 text-center">Registracija</h2>
+      <div className="col-md-6 mx-auto">
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">El. paštas</label>
+            <input
+              type="email"
+              id="email"
+              className="form-control"
+              placeholder="El. paštas"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">Slaptažodis</label>
+            <input
+              type="password"
+              id="password"
+              className="form-control"
+              placeholder="Slaptažodis"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-outline-primary border-3">Registruotis</button>
+        </form>
+        {error && <p className="text-danger mt-3">{error}</p>}
+      </div>
     </div>
-  );
+  ); 
 };
 
 export default Register;

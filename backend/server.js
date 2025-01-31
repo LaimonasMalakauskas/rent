@@ -15,6 +15,7 @@ app.use(express.json());
 app.use('/', require('./routes/mainRoutes'))
 app.use('/api/cars', require('./routes/carRoutes'))
 app.use('/api/auth', require('./routes/authRoutes'))
+app.use('/api/reservations', require('./routes/reservationRoutes'))
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 mongoose.connect(process.env.MONGO_URI) 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import CarInfo from '../components/CarInfo';
+import ReservationForm from '../components/ReservationForm';
 
 const DetailedInfoPage = ({ user }) => {
   const { id } = useParams();
@@ -19,15 +20,11 @@ const DetailedInfoPage = ({ user }) => {
     navigate('/');
   };
 
-  const handleReserve = () => {
-    console.log(`Rezervuotas automobilis su ID: ${id}`);
-  };
-
   if (!car) return <p>Kraunama...</p>;
 
   return (
     <>
-      <div className="d-flex justify-content-between m-5">
+      <div className="m-5">
         <button
           onClick={handleGoHome}
           className="btn btn-outline-secondary border-3 d-flex align-items-center"
@@ -35,21 +32,23 @@ const DetailedInfoPage = ({ user }) => {
           <FaArrowLeft className="me-2" />
           Grįžti
         </button>
-  
-        {user && user.role === 'user' && (
-          <button
-            onClick={handleReserve}
-            className="btn btn-outline-primary border-3"
-          >
-            Atlikti rezervaciją
-          </button>
-        )}
       </div>
-  
-      <CarInfo car={car} />
+      <div className="container mt-4">
+        <div className="row">
+          <div className="col-md-8">
+            <CarInfo car={car} />
+          </div>
+          {user && user.role === 'user' && (
+            <div className="col-md-3 my-5">
+              <h4>Atlikti rezervaciją</h4>
+              <ReservationForm car={car} user={user} />
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
-  
+
 };
 
 export default DetailedInfoPage;

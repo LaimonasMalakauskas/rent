@@ -20,6 +20,10 @@ const DetailedInfoPage = ({ user }) => {
     navigate('/');
   };
 
+  const handleReservationSuccess = () => {
+    navigate('/my-reservations');
+  };
+
   if (!car) return <p>Kraunama...</p>;
 
   return (
@@ -41,7 +45,11 @@ const DetailedInfoPage = ({ user }) => {
           {user && user.role === 'user' && (
             <div className="col-md-3 my-5">
               <h4>Atlikti rezervaciją</h4>
-              <ReservationForm car={car} user={user} />
+              <ReservationForm
+                car={car}
+                user={user}
+                onSuccess={handleReservationSuccess}
+              />
             </div>
           )}
         </div>

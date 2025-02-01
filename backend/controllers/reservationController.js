@@ -62,8 +62,8 @@ const deleteReservation = async (req, res) => {
 
 const updateReservation = async (req, res) => {
   try {
-    const { id } = req.params; 
-    const { startDate, endDate } = req.body;  
+    const { id } = req.params;
+    const { startDate, endDate, status } = req.body;
 
     const reservation = await Reservation.findById(id);
     if (!reservation) {
@@ -72,6 +72,7 @@ const updateReservation = async (req, res) => {
 
     reservation.startDate = startDate || reservation.startDate;
     reservation.endDate = endDate || reservation.endDate;
+    reservation.status = status || reservation.status; 
 
     await reservation.save();
     res.status(200).json(reservation); 
@@ -81,9 +82,22 @@ const updateReservation = async (req, res) => {
   }
 };
 
+const getAllReservations = async (req, res) => {
+  try {
+    const reservations = await Reservation.find()
+      .populate("user", "email")
+      .populate("car", "model");
+
+    res.status(200).json(reservations);
+  } catch (error) {
+    res.status(500).json({ message: "Nepavyko gauti rezervacijų", error });
+  }
+};
+
 module.exports = {
   createReservation,
   getUserReservations,
   deleteReservation,
-  updateReservation, 
+  updateReservation,
+  getAllReservations, 
 };

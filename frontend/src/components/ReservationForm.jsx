@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-const ReservationForm = ({ car, user }) => {
+const ReservationForm = ({ car, user, onSuccess }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -14,8 +14,8 @@ const ReservationForm = ({ car, user }) => {
       return;
     }
 
-    setError(''); 
-    setIsLoading(true); 
+    setError('');
+    setIsLoading(true);
 
     const reservationData = {
       userId: user?.id,
@@ -23,7 +23,7 @@ const ReservationForm = ({ car, user }) => {
       startDate,
       endDate,
     };
-    
+
     if (!reservationData.userId) {
       setError("Prisijungimo klaida: vartotojas nerastas");
       return;
@@ -46,6 +46,9 @@ const ReservationForm = ({ car, user }) => {
 
       const data = await response.json();
       console.log('Rezervacija sukurta:', data);
+
+      onSuccess();
+      
     } catch (error) {
       setIsLoading(false);
       setError('Klaida kuriant rezervaciją');

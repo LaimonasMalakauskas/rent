@@ -10,6 +10,7 @@ import AdminPage from './pages/AdminPage';
 import HomePage from './pages/HomePage';
 import DetailedInfoPage from './pages/DetailedInfoPage';
 import MyReservationsPage from './pages/MyReservationsPage';
+import AllReservedCars from './pages/AllReservedCars';
 
 const App = ({ user, onLogout, setUser }) => {
   return (
@@ -25,6 +26,7 @@ const App = ({ user, onLogout, setUser }) => {
           )}
           <Route path='/info/:id' element={<DetailedInfoPage user={user} />} />
           <Route path="/my-reservations" element={<MyReservationsPage user={user} />} />
+          <Route path='/reservations' element={<AllReservedCars />} />
         </Routes>
       </div>
       <Footer />

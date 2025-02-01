@@ -160,7 +160,7 @@ const MyReservationsPage = ({ user }) => {
                       <FaCheckCircle style={{ marginRight: '5px' }} /> Patvirtinta
                     </span>
                   )}
-                  {reservation.status === 'canceled' && (
+                  {reservation.status === 'cancelled' && (
                     <span className="badge bg-danger">
                       <FaTimesCircle style={{ marginRight: '5px' }} /> Atšaukta
                     </span>
@@ -171,8 +171,7 @@ const MyReservationsPage = ({ user }) => {
           </div>
         ))}
       </div>
-
-      {/* Redagavimo modalas */}
+      
       {isEditing && editedReservation && (
         <div className="modal show" style={{ display: 'block' }}>
           <div className="modal-dialog">

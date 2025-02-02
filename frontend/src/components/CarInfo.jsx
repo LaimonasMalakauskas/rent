@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaCar, FaUsers, FaLuggageCart, FaCogs, FaCheckCircle, FaTimesCircle, FaEuroSign } from 'react-icons/fa';
 
-const CarInfo = ({ car }) => {
+const CarInfo = ({ car, user }) => {
   return (
     <div className="container my-5">
       <div className="card shadow-sm" style={{ maxWidth: '500px', margin: '0 auto' }}>
@@ -19,7 +19,7 @@ const CarInfo = ({ car }) => {
         <div className="card-body">
           <p className="card-text">
             <FaEuroSign style={{ marginRight: '8px' }} />
-            <strong>Kaina:</strong> €{car.price.toFixed(2)}
+            <strong>Kaina:</strong> €{car.price.toFixed(2)}/diena
           </p>
           <p className="card-text">
             <FaUsers style={{ marginRight: '8px' }} />
@@ -37,18 +37,20 @@ const CarInfo = ({ car }) => {
             <FaLuggageCart style={{ marginRight: '8px' }} />
             <strong>Bagažo talpa:</strong> {car.capacity} krepšiai
           </p>
-          <p className="card-text">
-            <strong>Statusas:</strong>{' '}
-            {car.available ? (
-              <span className="badge bg-success">
-                <FaCheckCircle style={{ marginRight: '5px' }} /> Pasiekiamas
-              </span>
-            ) : (
-              <span className="badge bg-danger">
-                <FaTimesCircle style={{ marginRight: '5px' }} /> Nepasiekiamas
-              </span>
-            )}
-          </p>
+          {user?.role === 'admin' && (
+            <p className="card-text">
+              <strong>Statusas:</strong>{' '}
+              {car.available ? (
+                <span className="badge bg-success">
+                  <FaCheckCircle style={{ marginRight: '5px' }} /> Pasiekiamas
+                </span>
+              ) : (
+                <span className="badge bg-danger">
+                  <FaTimesCircle style={{ marginRight: '5px' }} /> Nepasiekiamas
+                </span>
+              )}
+            </p>
+          )}
         </div>
       </div>
     </div>

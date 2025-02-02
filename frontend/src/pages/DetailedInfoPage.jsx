@@ -40,7 +40,7 @@ const DetailedInfoPage = ({ user }) => {
       <div className="container mt-4">
         <div className="row">
           <div className="col-md-8">
-            <CarInfo car={car} />
+            <CarInfo car={car} user={user} />
           </div>
           {user && user.role === 'user' && (
             <div className="col-md-3 my-5">

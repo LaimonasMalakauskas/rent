@@ -188,17 +188,20 @@ const CarList = ({ user }) => {
                       <p className="card-text">
                         Pridėta: {new Date(car.createdAt).toLocaleString('lt-LT')}
                       </p>
-                      <p>
-                        {car.available ? (
-                          <span className="badge bg-success">
-                            <FaCheckCircle style={{ marginRight: '5px' }} /> Pasiekiamas
-                          </span>
-                        ) : (
-                          <span className="badge bg-danger">
-                            <FaTimesCircle style={{ marginRight: '5px' }} /> Nepasiekiamas
-                          </span>
-                        )}
-                      </p>
+                      {user?.role === 'admin' && (
+                        <p>
+                          {car.available ? (
+                            <span className="badge bg-success">
+                              <FaCheckCircle style={{ marginRight: '5px' }} /> Pasiekiamas
+                            </span>
+                          ) : (
+                            <span className="badge bg-danger">
+                              <FaTimesCircle style={{ marginRight: '5px' }} /> Nepasiekiamas
+                            </span>
+                          )}
+                        </p>
+                      )}
+
                     </div>
                   </div>
                 </div>

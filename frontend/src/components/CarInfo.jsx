@@ -18,23 +18,23 @@ const CarInfo = ({ car, user }) => {
         </div>
         <div className="card-body">
           <p className="card-text">
-            <FaEuroSign style={{ marginRight: '8px' }} />
-            <strong>Kaina:</strong> €{car.price.toFixed(2)}/diena
+            <FaEuroSign data-testid="fa-euro-sign" style={{ marginRight: '8px' }} />
+            <strong>Kaina:</strong> €{car && car.price ? car.price.toFixed(2) : 'N/A'}/diena
           </p>
           <p className="card-text">
-            <FaUsers style={{ marginRight: '8px' }} />
+            <FaUsers data-testid="fa-users" style={{ marginRight: '8px' }} />
             <strong>Keleivių skaičius:</strong> {car.passengers}
           </p>
           <p className="card-text">
-            <FaCar style={{ marginRight: '8px' }} />
+            <FaCar data-testid="fa-car" style={{ marginRight: '8px' }} />
             <strong>Durelių skaičius:</strong> {car.doors}
           </p>
           <p className="card-text">
-            <FaCogs style={{ marginRight: '8px' }} />
+            <FaCogs data-testid="fa-cogs" style={{ marginRight: '8px' }} />
             <strong>Pavarų tipas:</strong> {car.gears}
           </p>
           <p className="card-text">
-            <FaLuggageCart style={{ marginRight: '8px' }} />
+            <FaLuggageCart data-testid="fa-luggage-cart" style={{ marginRight: '8px' }} />
             <strong>Bagažo talpa:</strong> {car.capacity} krepšiai
           </p>
           {user?.role === 'admin' && (
@@ -42,11 +42,11 @@ const CarInfo = ({ car, user }) => {
               <strong>Statusas:</strong>{' '}
               {car.available ? (
                 <span className="badge bg-success">
-                  <FaCheckCircle style={{ marginRight: '5px' }} /> Pasiekiamas
+                  <FaCheckCircle data-testid="fa-check-circle" style={{ marginRight: '5px' }} /> Pasiekiamas
                 </span>
               ) : (
                 <span className="badge bg-danger">
-                  <FaTimesCircle style={{ marginRight: '5px' }} /> Nepasiekiamas
+                  <FaTimesCircle data-testid="fa-times-circle" style={{ marginRight: '5px' }} /> Nepasiekiamas
                 </span>
               )}
             </p>

@@ -96,21 +96,23 @@ const CarList = ({ user }) => {
     }));
   };
 
-  const filteredCars = cars.filter((car) => {
-    if ((!user || user.role === 'user') && !car.available) return false;
+  const filteredCars = Array.isArray(cars)
+  ? cars.filter((car) => {
+      if ((!user || user.role === 'user') && !car.available) return false;
 
-    if (user?.role === 'admin') {
-      if (filter === 'available' && !car.available) return false;
-      if (filter === 'unavailable' && car.available) return false;
-    }
+      if (user?.role === 'admin') {
+        if (filter === 'available' && !car.available) return false;
+        if (filter === 'unavailable' && car.available) return false;
+      }
 
-    if (minPrice && car.price < minPrice) return false;
-    if (maxPrice && car.price > maxPrice) return false;
+      if (minPrice && car.price < minPrice) return false;
+      if (maxPrice && car.price > maxPrice) return false;
 
-    if (selectedModel !== 'all' && car.model !== selectedModel) return false;
+      if (selectedModel !== 'all' && car.model !== selectedModel) return false;
 
-    return true;
-  });
+      return true;
+    })
+  : [];
 
   return (
     <div className="container my-5">

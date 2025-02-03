@@ -156,19 +156,19 @@ const MyReservationsPage = ({ user }) => {
               <div className="position-absolute top-0 end-0 p-2 d-flex">
                 <FaEdit
                   onClick={() => handleEdit(reservation)}
-                  className="text-primary me-2 icon"
+                  className={`me-2 icon ${reservation.status === 'confirmed' || reservation.status === 'cancelled' ? 'text-secondary disabled' : 'text-primary'}`}
                   size={24}
                 />
                 <FaTrashAlt
                   onClick={() => deleteReservation(reservation._id)}
-                  className="text-danger icon"
+                  className={`icon ${reservation.status === 'confirmed' || reservation.status === 'cancelled' ? 'text-secondary disabled' : 'text-danger'}`}
                   size={24}
                 />
               </div>
               <div className="card-body">
                 <p className="card-text">
                   <FaEuroSign style={{ marginRight: '8px' }} />
-                  <strong>Kaina:</strong> €{(reservation.car?.price ?? 0).toFixed(2)}
+                  <strong>Kaina:</strong> €{(reservation.car?.price ?? 0).toFixed(2)}/diena
                 </p>
                 <p className="card-text">
                   <FaUsers style={{ marginRight: '8px' }} />
@@ -221,15 +221,16 @@ const MyReservationsPage = ({ user }) => {
       {isEditing && editedReservation && (
         <div className="modal show" style={{ display: 'block' }}>
           <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Redaguoti rezervaciją</h5>
+            <div className="modal-content border">
+              <div className="modal-header bg-dark" data-bs-theme="dark">
+                <h5 className="modal-title text-light">Redaguoti rezervaciją</h5>
                 <button type="button" className="btn-close" onClick={handleCancelEdit}></button>
               </div>
               <div className="modal-body">
                 <form>
                   <div className="mb-3">
                     <label htmlFor="startDate" className="form-label">Pradžios data</label>
+                    <div>
                     <DatePicker
                       selected={new Date(editedReservation.startDate)}
                       onChange={(date) => {
@@ -239,10 +240,13 @@ const MyReservationsPage = ({ user }) => {
                       minDate={new Date()}
                       excludeDates={reservedDates.map(date => new Date(date))}
                       dateFormat="yyyy-MM-dd"
+                      className="form-control"
                     />
+                    </div>
                   </div>
                   <div className="mb-3">
                     <label htmlFor="endDate" className="form-label">Pabaigos data</label>
+                    <div>
                     <DatePicker
                       selected={new Date(editedReservation.endDate)}
                       onChange={(date) => {
@@ -252,14 +256,16 @@ const MyReservationsPage = ({ user }) => {
                       minDate={new Date()}
                       excludeDates={reservedDates.map(date => new Date(date))}
                       dateFormat="yyyy-MM-dd"
+                      className="form-control"
                     />
+                    </div>
                   </div>
                 </form>
                 {error && <p className="text-danger">{error}</p>}
               </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={handleCancelEdit}>Atšaukti</button>
-                <button type="button" className="btn btn-primary" onClick={handleEditedReservation}>Išsaugoti</button>
+              <div className="modal-footer bg-dark">
+                <button type="button" className="btn btn-outline-danger" onClick={handleCancelEdit}>Atšaukti</button>
+                <button type="button" className="btn btn-outline-primary" onClick={handleEditedReservation}>Išsaugoti</button>
               </div>
             </div>
           </div>

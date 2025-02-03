@@ -11,6 +11,7 @@ const AllReservedCars = () => {
   const [newEndDate, setNewEndDate] = useState(null);
   const [newStatus, setNewStatus] = useState("waiting");
   const [reservedDates, setReservedDates] = useState([]);
+  const [userFilter, setUserFilter] = useState("");
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -162,7 +163,13 @@ const AllReservedCars = () => {
   if (loading) return <p className="text-center">Kraunama...</p>;
   if (error) return <p className="text-danger text-center">{error}</p>;
 
-  const groupedReservations = reservations.reduce((groups, reservation) => {
+  // Filtruojame rezervacijas pagal naudotojo el. paštą
+  const filteredReservations = reservations.filter((reservation) =>
+    reservation.user.email.toLowerCase().includes(userFilter.toLowerCase())
+  );
+
+  // Sukuriame grupes pagal naudotoją tik iš jau filtruotų rezervacijų
+  const groupedReservations = filteredReservations.reduce((groups, reservation) => {
     const email = reservation.user.email;
     if (!groups[email]) {
       groups[email] = [];
@@ -172,66 +179,75 @@ const AllReservedCars = () => {
   }, {});
 
   return (
-    <div className="container mt-4">
-      <h2 className="text-center mb-4">Visos rezervacijos</h2>
-      <div className="accordion" id="reservationsAccordion">
+    <div >
+      <div className="container mt-4">
+        <h2 className="text-center mb-4">Visos rezervacijos</h2>
+
+        <div className="mb-3">
+          <input
+            type="text"
+            id="userFilter"
+            className="form-control"
+            value={userFilter}
+            onChange={(e) => setUserFilter(e.target.value)}
+            placeholder="Įveskite naudotojo el. paštą"
+          />
+        </div>
+
         {Object.keys(groupedReservations).map((email, index) => (
-          <div className="accordion-item" key={index}>
-            <h2 className="accordion-header" id={`heading${index}`}>
-              <button
-                className="accordion-button"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target={`#collapse${index}`}
-                aria-expanded="true"
-                aria-controls={`collapse${index}`}
-              >
-                {email}
-              </button>
-            </h2>
-            <div
-              id={`collapse${index}`}
-              className="accordion-collapse collapse show"
-              aria-labelledby={`heading${index}`}
-              data-bs-parent="#reservationsAccordion"
-            >
-              <div className="accordion-body">
-                {groupedReservations[email].map((reservation) => (
-                  <table className="table table-striped" key={reservation._id}>
-                    <thead>
-                      <tr>
-                        <th>Automobilis</th>
-                        <th>Pradžios data</th>
-                        <th>Pabaigos data</th>
-                        <th>Statusas</th>
-                        <th>Veiksmai</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          {reservation.car ? `${reservation.car.model}` : "Nežinomas automobilis"}
-                        </td>
+          <div className="card mb-4 shadow-sm" key={index}>
+            <div className="card-header bg-dark text-light fw-bold">
+              {email}
+            </div>
+            <div className="card-body">
+              <div className="table-responsive">
+                <table className="table table-hover">
+                  <thead className="table-light">
+                    <tr>
+                      <th>Automobilis</th>
+                      <th>Pradžios data</th>
+                      <th>Pabaigos data</th>
+                      <th>Statusas</th>
+                      <th>Veiksmai</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {groupedReservations[email].map((reservation) => (
+                      <tr key={reservation._id}>
+                        <td>{reservation.car ? reservation.car.model : "Nežinomas automobilis"}</td>
                         <td>{new Date(reservation.startDate).toLocaleDateString('lt-LT', { timeZone: 'UTC' })}</td>
                         <td>{new Date(reservation.endDate).toLocaleDateString('lt-LT', { timeZone: 'UTC' })}</td>
-                        <td>{reservation.status}</td>
+                        <td>
+                          <span
+                            className={`badge ${reservation.status === "confirmed"
+                              ? "bg-success"
+                              : reservation.status === "cancelled"
+                                ? "bg-danger"
+                                : "bg-warning text-dark"
+                              }`}
+                          >
+                            {reservation.status}
+                          </span>
+                        </td>
                         <td>
                           <button
-                            className="btn btn-warning"
+                            className="btn btn-sm btn-outline-primary border-2"
                             onClick={() => handleEditClick(reservation)}
                           >
                             Redaguoti
                           </button>
                         </td>
                       </tr>
-                    </tbody>
-                  </table>
-                ))}
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         ))}
       </div>
+
+
 
       {showModal && (
         <div
@@ -242,39 +258,48 @@ const AllReservedCars = () => {
           aria-hidden={showModal ? "false" : "true"}
         >
           <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="editReservationModal">
+            <div className="modal-content border">
+              <div className="modal-header bg-dark" data-bs-theme="dark">
+                <h5 className="modal-title text-light" id="editReservationModal">
                   Redaguoti rezervaciją
                 </h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setShowModal(false)}></button>
               </div>
               <div className="modal-body">
                 <div className="mb-3">
+                  <label className="form-label">Naudotojas - {selectedReservation.user.email}</label>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Automobilis - {selectedReservation.car ? selectedReservation.car.model : "Nežinomas automobilis"}</label>
+                </div>
+                <hr />
+                <div className="mb-3">
                   <label htmlFor="startDate" className="form-label">Pradžios data</label>
-                  <DatePicker
-                    id="startDate"
-                    selected={newStartDate}
-                    onChange={handleStartDateChange}
-                    minDate={new Date()}
-                    filterDate={(date) => !isDateReserved(date, selectedReservation?.car?._id)}
-                    dateFormat="yyyy-MM-dd"
-                    className="form-control"
-                  />
-
-
+                  <div>
+                    <DatePicker
+                      id="startDate"
+                      selected={newStartDate}
+                      onChange={handleStartDateChange}
+                      minDate={new Date()}
+                      filterDate={(date) => !isDateReserved(date, selectedReservation?.car?._id)}
+                      dateFormat="yyyy-MM-dd"
+                      className="form-control"
+                    />
+                  </div>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="endDate" className="form-label">Pabaigos data</label>
-                  <DatePicker
-                    id="endDate"
-                    selected={newEndDate}
-                    onChange={handleEndDateChange}
-                    minDate={newStartDate || new Date()}
-                    filterDate={(date) => !isDateReserved(date, selectedReservation?.car?._id)}
-                    dateFormat="yyyy-MM-dd"
-                    className="form-control"
-                  />
+                  <div>
+                    <DatePicker
+                      id="endDate"
+                      selected={newEndDate}
+                      onChange={handleEndDateChange}
+                      minDate={newStartDate || new Date()}
+                      filterDate={(date) => !isDateReserved(date, selectedReservation?.car?._id)}
+                      dateFormat="yyyy-MM-dd"
+                      className="form-control"
+                    />
+                  </div>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="status" className="form-label">Statusas</label>
@@ -290,11 +315,11 @@ const AllReservedCars = () => {
                   </select>
                 </div>
               </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
+              <div className="modal-footer bg-dark">
+                <button type="button" className="btn btn-outline-danger" onClick={() => setShowModal(false)}>
                   Uždaryti
                 </button>
-                <button type="button" className="btn btn-primary" onClick={handleSaveChanges}>
+                <button type="button" className="btn btn-outline-primary" onClick={handleSaveChanges}>
                   Išsaugoti pakeitimus
                 </button>
               </div>

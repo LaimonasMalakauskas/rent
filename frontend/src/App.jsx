@@ -12,6 +12,7 @@ import HomePage from './pages/HomePage';
 import DetailedInfoPage from './pages/DetailedInfoPage';
 import MyReservationsPage from './pages/MyReservationsPage';
 import AllReservedCars from './pages/AllReservedCars';
+import NotFound from './pages/NotFound';
 
 const App = ({ user, onLogout, setUser }) => {
   return (
@@ -28,6 +29,7 @@ const App = ({ user, onLogout, setUser }) => {
           <Route path='/info/:id' element={<DetailedInfoPage user={user} />} />
           <Route path="/my-reservations" element={<MyReservationsPage user={user} />} />
           <Route path='/reservations' element={<AllReservedCars />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
       <Footer />

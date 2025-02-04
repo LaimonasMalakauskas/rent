@@ -1,14 +1,14 @@
 ![Alt text](img/main.png)
 
-Projekto dokumentacija - Rent
+# Projekto dokumentacija - Rent
 
-Apžvalga
+## Apžvalga
 
 Rent yra įrangos (automobilių) rezervacijos ir valdymo sistema, leidžianti vartotojams rezervuoti ir nuomoti įrangą. Administratoriaus rolė leidžia valdyti ir tvarkyti pasiekiamus įrenginius, o vartotojai gali užsisakyti ir peržiūrėti jų būsenas. Sistema apima dvi pagrindines dalis: administratoriaus ir paprasto vartotojo sąsajas, taip pat turi papildomų funkcijų, kaip išankstinės rezervacijos, apribojimai ir autentifikacija.
 
-Projekto struktūra ir jos aprašymas
+# Projekto struktūra ir jos aprašymas
 
-Struktūra:
+## Struktūra:
 
 rent
 ├── backend
@@ -84,9 +84,9 @@ rent
 │   └── vite.config.js
 
 
-Aprašymas:
+# Aprašymas:
 
-Backend
+## Backend
     1. controllers:
         ◦ authController.js: Atsakingas už vartotojo autentifikaciją (registracija, prisijungimas).
         ◦ carController.js: Tvarko užklausas dėl automobilių (pridėjimas, atnaujinimas, peržiūra).
@@ -109,7 +109,7 @@ Backend
     8. package.json ir package-lock.json: Node.js projekto priklausomybės.
     9. server.js: Pagrindinis serverio failas, kuris paleidžia backendą.
 
-Frontend
+## Frontend
     1. public:
         ◦ Saugo viešus failus, tokius kaip logotipai, nuotraukos ir kiti ištekliai.
     2. src:
@@ -144,7 +144,7 @@ Frontend
     8. vite.config.js: Vite konfigūracija React aplikacijai.
 
 
-Įdiegimas
+# Įdiegimas
     1. Backend:
         ◦ Įdiekite backend priklausomybes:
 
@@ -163,13 +163,13 @@ Frontend
 
           npm run dev
 
-Testavimas
+# Testavimas
 
 Testavimas (Unit) yra atliktas naudojant Jest ir React Testing Library. Norėdami atlikti testus, naudokite šią komandą:
 
 npm test
 
-Papildoma informacija
+# Papildoma informacija
     • Sistema sukurta su React, Node.js / Express, MongoDB. Visos šios dalys sujungtos
       tarpusavyje.
     • Autentifikacija: Sistema naudoja JWT tokenus vartotojų autentifikacijai ir leidžia tik prisijungusiems vartotojams atlikti veiksmus, susijusius su rezervacijomis.
@@ -177,7 +177,7 @@ Papildoma informacija
 
 -----------------------------------------------------------------------------------------------------------------------
 
-User Story Map - Rent
+# User Story Map - Rent
 
 Vartotojo istorijų apžvalga
 Administratorius
@@ -202,9 +202,9 @@ User Story Map
 | **Patvirtinti rezervacijas**      | Patvirtina vartotojų rezervacijas      | Nėra galimybės                      |
 | **Atsijungimas**                  | Atsijungia nuo administratoriaus paskyros | Atsijungia nuo vartotojo paskyros    |
 
-Detalesnės istorijos
+# Detalesnės istorijos
 
-Administratorius:
+## Administratorius:
     1. Prisijungimas
         ◦ Kaip administratorius, noriu prisijungti prie savo paskyros, kad galėčiau valdyti automobilius ir rezervacijas.
     2. Automobilių valdymas
@@ -214,7 +214,7 @@ Administratorius:
     4. Peržiūrėti rezervacijas
         ◦ Kaip administratorius, noriu matyti visas aktyvias ir atliktas rezervacijas, kad galėčiau sekti, kas ir kada nuomojosi įrenginį.
 
-Paprastas vartotojas:
+## Paprastas vartotojas:
     1. Registracija ir prisijungimas
         ◦ Kaip vartotojas, noriu užsiregistruoti sistemoje ir sukurti paskyrą, kad galėčiau rezervuoti įrangą ir sekti savo užsakymus.
     2. Automobilių peržiūra
@@ -235,7 +235,7 @@ Paprastas vartotojas:
 | 1.3. Peržiūrėti automobilius          | 1.6. Kurti rezervaciją              | 1.8. Atsijungimas                    |
 | 1.6. Kurti rezervaciją                |                                      |                                       |
 
-Papildomos pastabos:
+# Papildomos pastabos:
     • Autentifikacija: Sistema naudoja JWT (JSON Web Token) autentifikaciją tiek administratoriui, tiek vartotojui.
     • Rezervacijos apribojimai: Sistema užtikrina, kad automobilių negalima būtų rezervuoti daugiau nei vienam vartotojui tuo pačiu laiku.
     • Atsarginiai įrašai: Visi įrašai apie automobilių būsenas, rezervacijas ir vartotojus yra saugomi MongoDB duomenų bazėje.   

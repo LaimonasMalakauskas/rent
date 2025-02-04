@@ -88,6 +88,7 @@ rent
 # Aprašymas:
 
 ## Backend
+
     1. controllers:
         ◦ authController.js: Atsakingas už vartotojo autentifikaciją (registracija, prisijungimas).
         ◦ carController.js: Tvarko užklausas dėl automobilių (pridėjimas, atnaujinimas, peržiūra).
@@ -111,6 +112,7 @@ rent
     9. server.js: Pagrindinis serverio failas, kuris paleidžia backendą.
 
 ## Frontend
+
     1. public:
         ◦ Saugo viešus failus, tokius kaip logotipai, nuotraukos ir kiti ištekliai.
     2. src:
@@ -146,6 +148,7 @@ rent
 
 
 # Įdiegimas
+
     1. Backend:
         ◦ Įdiekite backend priklausomybes:
 
@@ -165,30 +168,33 @@ rent
           npm run dev
 
 # Testavimas
-
-Testavimas (Unit) yra atliktas naudojant Jest ir React Testing Library. Norėdami atlikti testus, naudokite šią komandą:
-
-npm test
+        
+    Testavimas (Unit) yra atliktas naudojant Jest ir React Testing Library. Norėdami atlikti testus, naudokite šią komandą:
+      
+        npm test
 
 # Papildoma informacija
+
     • Sistema sukurta su React, Node.js / Express, MongoDB. Visos šios dalys sujungtos
       tarpusavyje.
+    • Aplikacijoje naudojamas Bootstrap CSS.
     • Autentifikacija: Sistema naudoja JWT tokenus vartotojų autentifikacijai ir leidžia tik prisijungusiems vartotojams atlikti veiksmus, susijusius su rezervacijomis.
     • Įkėlimas: Failai, įskaitant automobilių nuotraukas, įkeliami per specialų middleware upload.js, kuris užtikrina, kad failai būtų teisingai apdorojami.
-
------------------------------------------------------------------------------------------------------------------------
+  
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # User Story Map - Rent
 
 Vartotojo istorijų apžvalga
-Administratorius
-Administratorius turi galimybę kurti, redaguoti ir valdyti įrenginius (automobilius) ir peržiūrėti bei tvarkyti rezervacijas.
 
-Paprastas vartotojas
-Paprastas vartotojas gali peržiūrėti įrenginius (automobilius).
-Registruotas ir prisijungęs vartotojas gali peržiūrėti įrenginius (automobilius) juos rezervuoti ir matyti savo rezervacijas.
+    Administratorius:
+    Administratorius turi galimybę kurti, redaguoti ir valdyti įrenginius (automobilius) ir peržiūrėti bei tvarkyti rezervacijas.
 
-User Story Map
+    Paprastas vartotojas:
+    Paprastas vartotojas gali peržiūrėti įrenginius (automobilius).
+    Registruotas ir prisijungęs vartotojas gali peržiūrėti įrenginius (automobilius) juos rezervuoti ir matyti savo rezervacijas.
+
+# User Story Map
 
 ## Pagrindinės funkcijos:
 
@@ -206,6 +212,7 @@ User Story Map
 # Detalesnės istorijos
 
 ## Administratorius:
+
     1. Prisijungimas
         ◦ Kaip administratorius, noriu prisijungti prie savo paskyros, kad galėčiau valdyti automobilius ir rezervacijas.
     2. Automobilių valdymas
@@ -216,6 +223,7 @@ User Story Map
         ◦ Kaip administratorius, noriu matyti visas aktyvias ir atliktas rezervacijas, kad galėčiau sekti, kas ir kada nuomojosi įrenginį.
 
 ## Paprastas vartotojas:
+
     1. Registracija ir prisijungimas
         ◦ Kaip vartotojas, noriu užsiregistruoti sistemoje ir sukurti paskyrą, kad galėčiau rezervuoti įrangą ir sekti savo užsakymus.
     2. Automobilių peržiūra
@@ -227,16 +235,8 @@ User Story Map
     5. Atsijungimas
         ◦ Kaip vartotojas, noriu atsijungti nuo savo paskyros, kai baigsiu naudotis sistema.
 
-## Prioritetai
-
-| **Pirmas prioritetas**                | **Antras prioritetas**               | **Trečias prioritetas**               |
-|---------------------------------------|--------------------------------------|---------------------------------------|
-| 1.1. Prisijungimas                    | 1.4. Kurti, redaguoti automobilį     | 1.5. Peržiūrėti rezervacijas         |
-| 1.2. Registracija                     | 1.3. Peržiūrėti automobilius        | 1.7. Patvirtinti rezervacijas        |
-| 1.3. Peržiūrėti automobilius          | 1.6. Kurti rezervaciją              | 1.8. Atsijungimas                    |
-| 1.6. Kurti rezervaciją                |                                      |                                       |
-
 # Papildomos pastabos:
+
     • Autentifikacija: Sistema naudoja JWT (JSON Web Token) autentifikaciją tiek administratoriui, tiek vartotojui.
     • Rezervacijos apribojimai: Sistema užtikrina, kad automobilių negalima būtų rezervuoti daugiau nei vienam vartotojui tuo pačiu laiku.
     • Atsarginiai įrašai: Visi įrašai apie automobilių būsenas, rezervacijas ir vartotojus yra saugomi MongoDB duomenų bazėje.   

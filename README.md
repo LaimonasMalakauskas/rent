@@ -10,7 +10,7 @@ Rent yra įrangos (automobilių) rezervacijos ir valdymo sistema, leidžianti va
 
 ## Struktūra:
 
-```plaintext
+```
 rent
 ├── backend
 │   ├── controllers
@@ -83,7 +83,7 @@ rent
 │   ├── package.json
 │   ├── README.md
 │   └── vite.config.js
-
+```
 
 # Aprašymas:
 

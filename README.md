@@ -10,6 +10,7 @@ Rent yra įrangos (automobilių) rezervacijos ir valdymo sistema, leidžianti va
 
 ## Struktūra:
 
+```plaintext
 rent
 ├── backend
 │   ├── controllers

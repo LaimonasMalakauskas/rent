@@ -32,6 +32,7 @@ const CarList = ({ user }) => {
   }, []);
 
   const deleteCar = (carId) => {
+    if (!window.confirm("Ar tikrai norite ištrinti šią rezervaciją?")) return;
     fetch(`http://localhost:5000/api/cars/${carId}`, {
       method: 'DELETE',
     })

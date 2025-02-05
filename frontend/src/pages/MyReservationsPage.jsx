@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
-import { FaCar, FaCalendarAlt, FaUsers, FaCogs, FaLuggageCart, FaEuroSign, FaCheckCircle, FaTimesCircle, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { FaCar, FaCalendarAlt, FaUsers, FaCogs, FaLuggageCart, FaEuroSign, FaCheckCircle, FaTimesCircle, FaEdit, FaTrashAlt, FaArrowLeft } from 'react-icons/fa';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const MyReservationsPage = ({ user }) => {
   const [reservations, setReservations] = useState([]);
@@ -9,6 +10,7 @@ const MyReservationsPage = ({ user }) => {
   const [editedReservation, setEditedReservation] = useState(null);
   const [error, setError] = useState('');
   const [reservedDates, setReservedDates] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) return;
@@ -25,12 +27,12 @@ const MyReservationsPage = ({ user }) => {
             let startDate = new Date(reservation.startDate);
             let endDate = new Date(reservation.endDate);
 
-            startDate.setUTCHours(0, 0, 0, 0); 
-            endDate.setUTCHours(0, 0, 0, 0);  
+            startDate.setUTCHours(0, 0, 0, 0);
+            endDate.setUTCHours(0, 0, 0, 0);
 
             while (startDate <= endDate) {
-              dates.push(startDate.toISOString().split('T')[0]); 
-              startDate.setUTCDate(startDate.getUTCDate() + 1);  
+              dates.push(startDate.toISOString().split('T')[0]);
+              startDate.setUTCDate(startDate.getUTCDate() + 1);
             }
           }
         });
@@ -42,9 +44,14 @@ const MyReservationsPage = ({ user }) => {
       });
   }, [user, editedReservation?.car]);
 
+  const handleGoHome = () => {
+    navigate('/');
+  };
+
   const isDateReserved = (date) => reservedDates.includes(date);
 
   const deleteReservation = async (reservationId) => {
+    if (!window.confirm("Ar tikrai norite ištrinti šią rezervaciją?")) return;
     try {
       const response = await fetch(`http://localhost:5000/api/reservations/${reservationId}`, {
         method: 'DELETE',
@@ -138,6 +145,13 @@ const MyReservationsPage = ({ user }) => {
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">Mano rezervacijos</h2>
+      <button
+        onClick={handleGoHome}
+        className="btn btn-outline-secondary border-3 d-flex align-items-center mb-5"
+      >
+        <FaArrowLeft className="me-2" />
+        Grįžti
+      </button>
       <div className="row">
         {reservations.map((reservation) => (
           <div key={reservation._id} className="col-md-6 col-lg-4 mb-4">
@@ -231,33 +245,33 @@ const MyReservationsPage = ({ user }) => {
                   <div className="mb-3">
                     <label htmlFor="startDate" className="form-label">Pradžios data</label>
                     <div>
-                    <DatePicker
-                      selected={new Date(editedReservation.startDate)}
-                      onChange={(date) => {
-                        const adjustedDate = new Date(date.setUTCHours(0, 0, 0, 0)); 
-                        setEditedReservation({ ...editedReservation, startDate: adjustedDate });
-                      }}
-                      minDate={new Date()}
-                      excludeDates={reservedDates.map(date => new Date(date))}
-                      dateFormat="yyyy-MM-dd"
-                      className="form-control"
-                    />
+                      <DatePicker
+                        selected={new Date(editedReservation.startDate)}
+                        onChange={(date) => {
+                          const adjustedDate = new Date(date.setUTCHours(0, 0, 0, 0));
+                          setEditedReservation({ ...editedReservation, startDate: adjustedDate });
+                        }}
+                        minDate={new Date()}
+                        excludeDates={reservedDates.map(date => new Date(date))}
+                        dateFormat="yyyy-MM-dd"
+                        className="form-control"
+                      />
                     </div>
                   </div>
                   <div className="mb-3">
                     <label htmlFor="endDate" className="form-label">Pabaigos data</label>
                     <div>
-                    <DatePicker
-                      selected={new Date(editedReservation.endDate)}
-                      onChange={(date) => {
-                        const adjustedDate = new Date(date.setUTCHours(0, 0, 0, 0)); 
-                        setEditedReservation({ ...editedReservation, endDate: adjustedDate });
-                      }}
-                      minDate={new Date()}
-                      excludeDates={reservedDates.map(date => new Date(date))}
-                      dateFormat="yyyy-MM-dd"
-                      className="form-control"
-                    />
+                      <DatePicker
+                        selected={new Date(editedReservation.endDate)}
+                        onChange={(date) => {
+                          const adjustedDate = new Date(date.setUTCHours(0, 0, 0, 0));
+                          setEditedReservation({ ...editedReservation, endDate: adjustedDate });
+                        }}
+                        minDate={new Date()}
+                        excludeDates={reservedDates.map(date => new Date(date))}
+                        dateFormat="yyyy-MM-dd"
+                        className="form-control"
+                      />
                     </div>
                   </div>
                 </form>

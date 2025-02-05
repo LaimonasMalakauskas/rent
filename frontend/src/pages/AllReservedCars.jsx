@@ -178,6 +178,24 @@ const AllReservedCars = () => {
     return groups;
   }, {});
 
+  const handleDeleteReservation = async (reservationId) => {
+    if (!window.confirm("Ar tikrai norite ištrinti šią rezervaciją?")) return;
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/reservations/${reservationId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Klaida šalinant rezervaciją");
+      }
+
+      setReservations((prev) => prev.filter((reservation) => reservation._id !== reservationId));
+    } catch (err) {
+      setError(`Klaida: ${err.message}`);
+    }
+  };
+
   return (
     <div >
       <div className="container mt-4">
@@ -208,7 +226,7 @@ const AllReservedCars = () => {
                       <th>Pradžios data</th>
                       <th>Pabaigos data</th>
                       <th>Statusas</th>
-                      <th>Veiksmai</th>
+                      <th colSpan="2" className="text-center">Veiksmai</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -237,6 +255,15 @@ const AllReservedCars = () => {
                             Redaguoti
                           </button>
                         </td>
+                        <td>
+                          <button
+                            className="btn btn-sm btn-outline-danger border-2"
+                            onClick={() => handleDeleteReservation(reservation._id)}
+                          >
+                            Ištrinti
+                          </button>
+                        </td>
+
                       </tr>
                     ))}
                   </tbody>

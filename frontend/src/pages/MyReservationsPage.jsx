@@ -140,7 +140,16 @@ const MyReservationsPage = ({ user }) => {
   };
 
   if (loading) return <p>Kraunama...</p>;
-  if (!reservations.length) return <div className='p-5 m-5'><h2>Jūs neturite rezervacijų!</h2></div>;
+  if (!reservations.length) return <div className='p-5 m-5'>
+    <button
+    onClick={handleGoHome}
+    className="btn btn-outline-secondary border-3 d-flex align-items-center mb-5"
+  >
+    <FaArrowLeft className="me-2" />
+    Grįžti
+  </button>
+  <h2>Jūs neturite rezervacijų!</h2>
+  </div>;
 
   return (
     <div className="container mt-5">

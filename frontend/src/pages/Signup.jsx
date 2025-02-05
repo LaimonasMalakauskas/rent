@@ -31,7 +31,7 @@ const Register = ({ setUser }) => {
         setUser(user);
 
         navigate('/');
-        alert('Registracija sėkminga');
+        alert('Registracija sėkminga. Norėdami atlikti savo pirmąją rezervaciją turite atsijungti ir prisijungti, kaip registruotas vartotojas!');
       } else {
         const data = await response.json();
         setError(data.message || 'Įvyko klaida');
